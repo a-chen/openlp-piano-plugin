@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Piano</title>
+  <link rel="stylesheet" href="/piano/static/stage.css" />
+</head>
+<body>
+
+  <!-- Title bar: always visible, shows current song and active view mode -->
+  <header id="title-bar">
+    <span id="song-title">Waiting for song...</span>
+    <span id="view-badge"></span>
+  </header>
+
+  <!-- Debug overlay: visible on screen, removed once WS connects -->
+  <div id="debug-overlay" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.85);color:#0f0;font-family:monospace;font-size:12px;padding:8px;z-index:9999;max-height:40vh;overflow-y:auto;white-space:pre-wrap;"></div>
+
+  <!-- Panel 1: MusicXML rendered by OSMD -->
+  <div id="sheet-music-view" class="panel hidden">
+    <div id="osmd-container"></div>
+  </div>
+
+  <!-- Panel 2: PDF rendered by PDF.js, with page navigation -->
+  <div id="pdf-view" class="panel hidden">
+    <div id="pdf-controls">
+      <button id="pdf-prev" aria-label="Previous page">&#8249;</button>
+      <span id="pdf-page-info">Page <span id="pdf-current-page">1</span> of <span id="pdf-total-pages">1</span></span>
+      <button id="pdf-next" aria-label="Next page">&#8250;</button>
+    </div>
+    <canvas id="pdf-canvas"></canvas>
+  </div>
+
+  <!-- Panel 3: Chord fallback — the built-in /chords view in an iframe -->
+  <iframe
+    id="chords-frame"
+    class="panel hidden"
+    src="/chords"
+    title="Chord view"
+    sandbox="allow-scripts allow-same-origin"
+  ></iframe>
+
+  <!-- OSMD: UMD bundle, loads as a regular script -->
+  <script src="/piano/static/opensheetmusicdisplay.min.js"></script>
+
+  <!-- PDF.js v5 and stage logic: ES modules -->
+  <script type="module" src="/piano/static/stage.js"></script>
+
+</body>
+</html>

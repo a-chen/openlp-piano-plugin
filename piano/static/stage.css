@@ -1,0 +1,204 @@
+/* ============================================================
+   OpenLP Sheet Music Plugin — Stage View Styles
+   Target: tablet browsers (iPad/Android), landscape + portrait
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   Reset & base
+   ---------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* the individual panels scroll, not the outer page */
+  background: #000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-text-size-adjust: 100%;
+  touch-action: pan-y; /* allow vertical swipe-scroll inside panels */
+}
+
+/* ----------------------------------------------------------
+   Title bar
+   ---------------------------------------------------------- */
+#title-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 16px;
+  background: rgba(0, 0, 0, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#song-title {
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+
+#view-badge {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------
+   Panels — each fills the viewport below the title bar
+   ---------------------------------------------------------- */
+.panel {
+  position: fixed;
+  top: 48px;  /* below title bar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* smooth momentum scrolling on iOS */
+}
+
+.panel.hidden {
+  display: none;
+}
+
+/* ----------------------------------------------------------
+   Panel 1: MusicXML / OSMD
+   ---------------------------------------------------------- */
+#sheet-music-view {
+  background: #fff; /* OSMD renders on white */
+  padding: 16px 8px;
+}
+
+#osmd-container {
+  /* OSMD writes its own width/height; we just let it flow */
+  width: 100%;
+}
+
+/* ----------------------------------------------------------
+   Panel 2: PDF.js
+   ---------------------------------------------------------- */
+#pdf-view {
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#pdf-view.hidden {
+  display: none;
+}
+
+#pdf-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+#pdf-controls button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Large touch target — no accidental mis-taps */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+#pdf-controls button:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+#pdf-controls button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+#pdf-page-info {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  min-width: 80px;
+  text-align: center;
+}
+
+#pdf-canvas {
+  display: block;
+  /* Canvas width is set by JS to match the page; we constrain to viewport */
+  max-width: 100%;
+  height: auto;
+  margin: 12px auto;
+  /* Subtle shadow to lift the page off the dark background */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* ----------------------------------------------------------
+   Panel 3: Chords iframe
+   ---------------------------------------------------------- */
+#chords-frame {
+  border: none;
+  width: 100%;
+}
+
+/* ----------------------------------------------------------
+   Utility: status/error message (shown when no song is live
+   or when a file fails to load)
+   ---------------------------------------------------------- */
+.status-message {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #000;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 18px;
+  text-align: center;
+  padding: 32px;
+}
+
+.status-message.hidden {
+  display: none;
+}
+
+.status-message .icon {
+  font-size: 48px;
+  opacity: 0.3;
+}
