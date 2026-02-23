@@ -1,0 +1,42 @@
+name: Bump version
+
+on:
+  push:
+    branches: [master, main]
+    # Don't re-trigger on the version bump commit itself
+    paths-ignore:
+      - 'piano/static/version.json'
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to push the version commit back
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Use the default GITHUB_TOKEN — no extra secrets needed
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump patch version
+        run: |
+          python3 - <<'EOF'
+          import json, pathlib
+
+          path = pathlib.Path('piano/static/version.json')
+          data = json.loads(path.read_text())
+          major, minor, patch = data['version'].split('.')
+          data['version'] = f'{major}.{minor}.{int(patch) + 1}'
+          path.write_text(json.dumps(data) + '\n')
+          print('New version:', data['version'])
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          VERSION=$(python3 -c "import json; print(json.load(open('piano/static/version.json'))['version'])")
+          git add piano/static/version.json
+          git commit -m "chore: bump version to ${VERSION} [skip ci]"
+          git push

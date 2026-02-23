@@ -43,6 +43,7 @@ const pdfPrevBtn     = document.getElementById('pdf-prev');
 const pdfNextBtn     = document.getElementById('pdf-next');
 const pdfCurrentEl   = document.getElementById('pdf-current-page');
 const pdfTotalEl     = document.getElementById('pdf-total-pages');
+const versionEl      = document.getElementById('version-badge');
 
 // ============================================================
 // OSMD setup
@@ -355,6 +356,17 @@ function connectWebSocket(wsPort) {
 
 async function init() {
   dbg('init() start — hostname: ' + location.hostname);
+
+  // 0. Display plugin version
+  try {
+    const res = await fetch('/piano/static/version.json');
+    if (res.ok) {
+      const { version } = await res.json();
+      if (versionEl) versionEl.textContent = 'v' + version;
+    }
+  } catch {
+    // Non-critical — badge stays blank
+  }
 
   // 1. Load the song catalog
   try {

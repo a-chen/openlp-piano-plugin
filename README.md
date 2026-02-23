@@ -1,8 +1,8 @@
-# OpenLP Piano Plugin
+# [OpenLP](https://gitlab.com/openlp) Piano Plugin
 
 ## Overview
 
-A self-contained OpenLP community plugin that displays piano sheet music
+A self-contained [OpenLP](https://gitlab.com/openlp/openlp) community plugin that displays piano sheet music
 (MusicXML or PDF) on musician tablets when a song goes live, falling back to
 the built-in chord view when no sheet music is available for the current song.
 
@@ -301,7 +301,7 @@ the module, making it available as `window.opensheetmusicdisplay`.
 ## Known Risk
 
 The plugin registers its Flask Blueprint by importing `from openlp.core.api import app`
-directly. This is an internal (not public) OpenLP API. It has been stable for
+directly. This is an internal (not public) [OpenLP API](https://gitlab.com/openlp/openlp). It has been stable for
 years but could break if OpenLP restructures `openlp/core/api/__init__.py`. A
-future upstream PR could add an official blueprint registration hook to
-eliminate this risk.
+future upstream PR to the [OpenLP repository](https://gitlab.com/openlp/openlp) could add an official blueprint
+registration hook to eliminate this risk.

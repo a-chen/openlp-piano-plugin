@@ -202,3 +202,19 @@ html, body {
   font-size: 48px;
   opacity: 0.3;
 }
+
+/* ----------------------------------------------------------
+   Version badge — bottom-left corner, unobtrusive
+   ---------------------------------------------------------- */
+#version-badge {
+  position: fixed;
+  bottom: 8px;
+  left: 12px;
+  font-size: 11px;
+  font-family: monospace;
+  color: rgba(255, 255, 255, 0.2);
+  pointer-events: none; /* don't interfere with touch scrolling */
+  user-select: none;
+  z-index: 50;
+}
+
